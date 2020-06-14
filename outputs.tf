@@ -6,3 +6,7 @@ output "lambda_function" {
   value = aws_lambda_function.this
 }
 
+output "iam_role" {
+  value = aws_iam_role.this
+}
+
