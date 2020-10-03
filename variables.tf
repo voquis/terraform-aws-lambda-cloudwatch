@@ -67,3 +67,17 @@ variable "s3_object_version" {
   default     = null
 }
 
+variable "vpc_config" {
+  description = "VPC subnets and security groups to allow lambda access"
+  type = object({
+    subnet_ids         = list(string)
+    security_group_ids = list(string)
+  })
+  default = null
+}
+
+variable "vpc_policy_name" {
+  description = "IAM policy name for Lambda function to create, attach and delete network interface for VPC attachment"
+  type        = string
+  default     = null
+}

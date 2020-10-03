@@ -5,6 +5,8 @@ terraform {
 # ---------------------------------------------------------------------------------------------------------------------
 # Create Lambda function
 # Provider Docs: https://www.terraform.io/docs/providers/aws/r/lambda_function.html
+# Dynamic block inspired by: https://github.com/hashicorp/terraform/issues/19853#issuecomment-589988711
+# and: https://codeinthehole.com/tips/conditional-nested-blocks-in-terraform/
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_lambda_function" "this" {
@@ -17,6 +19,14 @@ resource "aws_lambda_function" "this" {
   s3_key            = var.s3_key
   s3_object_version = var.s3_object_version
   timeout           = var.timeout
+
+  dynamic "vpc_config" {
+    for_each = var.vpc_config == null ? [] : [var.vpc_config]
+    content {
+      subnet_ids         = vpc_config.value["subnet_ids"]
+      security_group_ids = vpc_config.value["security_group_ids"]
+    }
+  }
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -75,8 +85,41 @@ data "aws_iam_policy_document" "log" {
   }
 }
 
-resource "aws_iam_role_policy_attachment" "this" {
+resource "aws_iam_role_policy_attachment" "log" {
   role       = aws_iam_role.this.name
   policy_arn = aws_iam_policy.log.arn
 }
 
+# ---------------------------------------------------------------------------------------------------------------------
+# Create and attach IAM policy for Lambda function to optionally attach to VPC. Lambda execution role requires
+# permissions to create and delete network interfaces
+# Provider Docs: https://www.terraform.io/docs/providers/aws/r/iam_policy.html
+# Data Docs: https://www.terraform.io/docs/providers/aws/d/iam_policy_document.html
+# Other docs: https://ao.gl/the-provided-execution-role-does-not-have-permissions-to-call-createnetworkinterface-on-ec2/
+# ---------------------------------------------------------------------------------------------------------------------
+
+resource "aws_iam_policy" "vpc" {
+  count  = var.vpc_config == null ? 0 : 1
+  name   = var.vpc_policy_name
+  policy = data.aws_iam_policy_document.vpc.json
+}
+
+data "aws_iam_policy_document" "vpc" {
+  statement {
+    actions = [
+      "ec2:DescribeNetworkInterfaces",
+      "ec2:CreateNetworkInterface",
+      "ec2:AttachNetworkInterface",
+      "ec2:DeleteNetworkInterface",
+    ]
+    resources = [
+      "*"
+    ]
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "vpc" {
+  count      = var.vpc_config == null ? 0 : 1
+  role       = aws_iam_role.this.name
+  policy_arn = aws_iam_policy.vpc[0].arn
+}

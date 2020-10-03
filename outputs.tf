@@ -10,3 +10,10 @@ output "iam_role" {
   value = aws_iam_role.this
 }
 
+output "iam_policy_log" {
+  value = aws_iam_policy.log
+}
+
+output "iam_policy_vpc" {
+  value = aws_iam_policy.vpc
+}
