@@ -13,7 +13,7 @@ provider "aws" {
 
 module "lambda" {
   source        = "voquis/lambda-cloudwatch/aws"
-  version       = "0.0.2"
+  version       = "0.0.3"
   handler       = "main.handler"
   function_name = "myFunction"
   runtime       = "python3.8"
