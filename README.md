@@ -25,6 +25,10 @@ module "lambda" {
       aws_security_group.my_sg_1.id,
       aws_security_group.my_sg_2.id
   ]
+  # Optional environment variables
+  variables = {
+    key = "value"
+  }
 }
 ```
 

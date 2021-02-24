@@ -27,6 +27,13 @@ resource "aws_lambda_function" "this" {
       security_group_ids = vpc_config.value["security_group_ids"]
     }
   }
+
+  dynamic "environment" {
+    for_each = var.variables  == null ? [] : [var.variables]
+    content {
+      variables = var.variables
+    }
+  }
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
