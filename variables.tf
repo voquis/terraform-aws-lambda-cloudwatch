@@ -81,3 +81,9 @@ variable "vpc_policy_name" {
   type        = string
   default     = null
 }
+
+variable "variables" {
+  description = "Environment variables passed to lambda function"
+  type        = map(string)
+  default     = null
+}
