@@ -13,18 +13,23 @@ provider "aws" {
 
 module "lambda" {
   source        = "voquis/lambda-cloudwatch/aws"
-  version       = "0.0.3"
+  version       = "0.0.5"
   handler       = "main.handler"
   function_name = "myFunction"
   runtime       = "python3.8"
   s3_bucket     = "my-lambda-functions-bucket"
   s3_key        = "myFunction_1.2.3.zip"
+
+  # Optional source code hash
+  source_code_hash = filebase64sha256("lambda.zip")
+
   # Optional VPC configuration (for example from a vpc_module)
   vpc_subnet_ids = module.my_vpc.subnets[*].id
   vpc_security_group_ids = [
       aws_security_group.my_sg_1.id,
       aws_security_group.my_sg_2.id
   ]
+
   # Optional environment variables
   variables = {
     key = "value"

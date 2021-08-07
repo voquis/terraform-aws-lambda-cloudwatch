@@ -87,3 +87,9 @@ variable "variables" {
   type        = map(string)
   default     = null
 }
+
+variable "source_code_hash" {
+  description = "base64-encoded SHA256 hash of the package file specified with filebase64sha256"
+  type        = string
+  default     = null
+}
