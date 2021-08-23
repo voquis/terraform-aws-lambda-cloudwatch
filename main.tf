@@ -15,11 +15,10 @@ resource "aws_lambda_function" "this" {
   memory_size       = var.memory_size
   role              = aws_iam_role.this.arn
   runtime           = var.runtime
-  s3_bucket         = var.code_type == "s3" ? var.s3_bucket : null
-  s3_key            = var.code_type == "s3" ? var.s3_key : null
-  s3_object_version = var.code_type == "s3" ? var.s3_object_version : null
-  source_code_hash  = var.code_type == "s3" ? var.source_code_hash : null
-  image_uri         = var.code_type == "ecr" ? var.image_uri : null
+  s3_bucket         = var.s3_bucket
+  s3_key            = var.s3_key
+  s3_object_version = var.s3_object_version
+  source_code_hash  = var.source_code_hash
   timeout           = var.timeout
 
   dynamic "vpc_config" {

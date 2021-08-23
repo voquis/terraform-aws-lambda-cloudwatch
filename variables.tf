@@ -17,15 +17,10 @@ variable "runtime" {
   type        = string
 }
 
-variable "code_type" {
-  description = "Lambda function code type, e.g. s3 or ecr"
-  type        = string
-}
 
 # ---------------------------------------------------------------------------------------------------------------------
-# OPTIONAL PARAMETERS
+# REQUIRED PARAMETERS (S3 BUCKET OR CONTAINER IMAGE)
 # ---------------------------------------------------------------------------------------------------------------------
-
 
 variable "s3_bucket" {
   description = "S3 bucket containing lambda function zip archive"
@@ -41,6 +36,10 @@ variable "image_uri" {
   description = "URI address for a container image stored in the ECR"
   type        = string
 }
+
+# ---------------------------------------------------------------------------------------------------------------------
+# OPTIONAL PARAMETERS
+# ---------------------------------------------------------------------------------------------------------------------
 
 variable "log_policy_name" {
   description = "IAM policy name for Lambda function to write to CloudWatch log groups and streams"
