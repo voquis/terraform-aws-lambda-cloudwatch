@@ -17,6 +17,11 @@ variable "runtime" {
   type        = string
 }
 
+
+# ---------------------------------------------------------------------------------------------------------------------
+# REQUIRED PARAMETERS (S3 BUCKET OR CONTAINER IMAGE)
+# ---------------------------------------------------------------------------------------------------------------------
+
 variable "s3_bucket" {
   description = "S3 bucket containing lambda function zip archive"
   type        = string
@@ -24,6 +29,11 @@ variable "s3_bucket" {
 
 variable "s3_key" {
   description = "S3 bucket object lambda function zip archive key"
+  type        = string
+}
+
+variable "image_uri" {
+  description = "URI address for a container image stored in the ECR"
   type        = string
 }
 
