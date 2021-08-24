@@ -30,6 +30,7 @@ variable "s3_key" {
 variable "image_uri" {
   description = "URI address for a container image stored in the ECR"
   type        = string
+}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
