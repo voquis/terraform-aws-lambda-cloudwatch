@@ -27,9 +27,14 @@ variable "s3_key" {
   type        = string
 }
 
+variable "image_uri" {
+  description = "URI address for a container image stored in the ECR"
+  type        = string
+
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
 # ---------------------------------------------------------------------------------------------------------------------
+
 
 variable "log_policy_name" {
   description = "IAM policy name for Lambda function to write to CloudWatch log groups and streams"
