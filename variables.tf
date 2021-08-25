@@ -2,25 +2,31 @@
 # REQUIRED PARAMETERS
 # ---------------------------------------------------------------------------------------------------------------------
 
-variable "handler" {
-  description = "Lambda function handler name, e.g. main.handler for a handler method in main.py in project root"
-  type        = string
-}
-
 variable "function_name" {
   description = "Lambda function name, must be unique in region"
   type        = string
 }
 
-variable "runtime" {
-  description = "Lambda function name, e.g. python3.8"
+variable "package_type" {
+  description = "Lambda function type, e.g. Zip or Image"
   type        = string
 }
-
 
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
 # ---------------------------------------------------------------------------------------------------------------------
+
+variable "handler" {
+  description = "Lambda function handler name, e.g. main.handler for a handler method in main.py in project root"
+  type        = string
+  default     = null
+}
+
+variable "runtime" {
+  description = "Lambda function name, e.g. python3.8"
+  type        = string
+  default     = null
+}
 
 variable "s3_bucket" {
   description = "S3 bucket containing lambda function zip archive"
