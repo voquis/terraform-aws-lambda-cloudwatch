@@ -20,6 +20,7 @@ resource "aws_lambda_function" "this" {
   s3_object_version = var.s3_object_version
   source_code_hash  = var.source_code_hash
   image_uri         = var.image_uri
+  package_type      = var.package_type
   timeout           = var.timeout
 
   dynamic "vpc_config" {
