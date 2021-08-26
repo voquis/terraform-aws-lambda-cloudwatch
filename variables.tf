@@ -10,6 +10,7 @@ variable "function_name" {
 variable "package_type" {
   description = "Lambda function type, e.g. Zip or Image"
   type        = string
+  default     = "Zip"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
