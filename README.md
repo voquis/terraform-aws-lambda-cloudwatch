@@ -7,7 +7,14 @@ This module may deploy a lambda function via one of the following methods:
 
 To specify VPC configuration, supply the optional `vpc_subnet_ids` and `vpc_security_group_ids` together
 
+If using a Java runtime deployed from a Zip file, SnapStart may be used to accelerate startup by setting the optional `snap_start` block, e.g:
+```terraform
+  snap_start = {
+    apply_on = "PublishedVersions"
+  }
+```
 
+## Examples
 Lambda Function from Zip folder stored in S3 bucket example:
 ```terraform
 
@@ -17,7 +24,7 @@ provider "aws" {
 
 module "lambda" {
   source        = "voquis/lambda-cloudwatch/aws"
-  version       = "0.0.6"
+  version       = "0.0.7"
   function_name = "myFunction"
 
   # Required for deployment via zip
@@ -54,7 +61,7 @@ provider "aws" {
 
 module "lambda" {
   source        = "voquis/lambda-cloudwatch/aws"
-  version       = "0.0.6"
+  version       = "0.0.7"
   function_name = "myFunction"
 
   # Required for deployment via Image
