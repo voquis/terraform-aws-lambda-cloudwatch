@@ -31,6 +31,13 @@ resource "aws_lambda_function" "this" {
     }
   }
 
+  dynamic "snap_start" {
+    for_each = var.snap_start == null ? [] : [var.snap_start]
+    content {
+      apply_on = snap_start.value["apply_on"]
+    }
+  }
+
   dynamic "environment" {
     for_each = var.variables == null ? [] : [var.variables]
     content {

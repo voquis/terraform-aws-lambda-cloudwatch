@@ -109,3 +109,11 @@ variable "source_code_hash" {
   type        = string
   default     = null
 }
+
+variable "snap_start" {
+  description = "Lambda SnapStart for Java managed runtime zip-deployed functions"
+  type = object({
+    apply_on = string
+  })
+  default = null
+}
