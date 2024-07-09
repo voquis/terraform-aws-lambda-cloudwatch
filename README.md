@@ -24,7 +24,7 @@ provider "aws" {
 
 module "lambda" {
   source        = "voquis/lambda-cloudwatch/aws"
-  version       = "0.0.7"
+  version       = "0.0.8"
   function_name = "myFunction"
 
   # Required for deployment via zip
@@ -61,7 +61,7 @@ provider "aws" {
 
 module "lambda" {
   source        = "voquis/lambda-cloudwatch/aws"
-  version       = "0.0.7"
+  version       = "0.0.8"
   function_name = "myFunction"
 
   # Required for deployment via Image
