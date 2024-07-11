@@ -15,5 +15,9 @@ output "iam_policy_log" {
 }
 
 output "iam_policy_vpc" {
-  value = aws_iam_policy.vpc
+  value = length(aws_iam_policy.vpc) > 0 ? aws_iam_policy.vpc[0] : null
+}
+
+output "cloudwatch_metric_alarm" {
+  value = length(aws_cloudwatch_metric_alarm.this) > 0 ? aws_cloudwatch_metric_alarm.this[0] : null
 }

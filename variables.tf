@@ -117,3 +117,70 @@ variable "snap_start" {
   })
   default = null
 }
+
+# CloudWatch Alarm variables
+variable "create_alarm" {
+  description = "Whether to not create a CloudWatch Metric Alarm"
+  type        = bool
+  default     = true
+}
+
+variable "alarm_period" {
+  description = "Alarm monitoring period in seconds"
+  type        = number
+  default     = 120
+}
+
+variable "alarm_evaluation_period" {
+  description = "Alarm monitoring period in seconds"
+  type        = number
+  default     = 120
+}
+
+variable "alarm_treat_missing_data" {
+  description = "How missing data should be handled"
+  type        = string
+  default     = "ignore"
+}
+
+variable "alarm_description" {
+  description = "CloudWatch Alarm description"
+  type        = string
+  default     = "Lambda invocation failure"
+}
+
+variable "alarm_alarm_actions" {
+  description = "CloudWatch Alarm actions for ALARM"
+  type        = list(string)
+  default     = []
+}
+
+variable "alarm_ok_actions" {
+  description = "CloudWatch Alarm actions for OK"
+  type        = list(string)
+  default     = []
+}
+
+variable "alarm_threshold" {
+  description = "CloudWatch Alarm threshold"
+  type        = number
+  default     = 0
+}
+
+variable "alarm_datapoints_to_alarm" {
+  description = "CloudWatch Alarm number of datapoints to raise an alarm"
+  type        = number
+  default     = 1
+}
+
+variable "alarm_statistic" {
+  description = "CloudWatch Alarm statistic to raise alarm"
+  type        = string
+  default     = "Sum"
+}
+
+variable "alarm_actions_enabled" {
+  description = "CloudWatch Alarm actions enabled"
+  type        = bool
+  default     = true
+}
