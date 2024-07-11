@@ -1,6 +1,7 @@
-Lambda Function with CloudWatch logging
+Lambda Function with CloudWatch logging and alarm
 ===
 Terraform module to provision a lambda function from an S3 bucket or ECR with minimum permissions to create log streams in a CloudWatch log group.
+Optionally, a cloudwatch alarm for invocation failures is also created.
 This module may deploy a lambda function via one of the following methods:
 - A path to an S3 object of the lambda function in a zip file
 - Docker image in an elastic container registry (ECR)
@@ -14,8 +15,10 @@ If using a Java runtime deployed from a Zip file, SnapStart may be used to accel
   }
 ```
 
+To skip the creation of CloudWatch Metric Alarms, set `create_alarm` to `false`.
+
 ## Examples
-Lambda Function from Zip folder stored in S3 bucket example:
+Lambda Function from Zip folder stored in S3 bucket example, with no alarm:
 ```terraform
 
 provider "aws" {
@@ -24,7 +27,7 @@ provider "aws" {
 
 module "lambda" {
   source        = "voquis/lambda-cloudwatch/aws"
-  version       = "0.0.8"
+  version       = "1.0.0"
   function_name = "myFunction"
 
   # Required for deployment via zip
@@ -52,16 +55,21 @@ module "lambda" {
 }
 ```
 
-Lambda Functions from Container Image stored on AWS ECR example:
+Lambda Functions from Container Image stored on AWS ECR example, with invocation failure alarm notifications sent to an SNS topic:
 ```terraform
 
 provider "aws" {
   version = "2.65.0"
 }
 
+# Create an SNS topic that may be used e.g. for PagerDuty CloudWatch Alarms integration
+resource "aws_sns_topic" "lambda_failures" {
+  name = "lambda-invocation-failures"
+}
+
 module "lambda" {
   source        = "voquis/lambda-cloudwatch/aws"
-  version       = "0.0.8"
+  version       = "1.0.0"
   function_name = "myFunction"
 
   # Required for deployment via Image
@@ -81,6 +89,15 @@ module "lambda" {
   variables = {
     key = "value"
   }
+
+  # CloudWatch Metric Alarm configuration
+  alarm_alarm_actions = [
+    aws_sns_topic.lambda_failures.arn
+  ]
+
+  alarm_ok_actions = [
+    aws_sns_topic.lambda_failures.arn
+  ]
 }
 ```
 
