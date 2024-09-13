@@ -18,6 +18,8 @@ resource "aws_lambda_function" "this" {
   image_uri         = var.image_uri
   package_type      = var.package_type
   timeout           = var.timeout
+  architectures     = var.architectures
+  filename          = var.filename
 
   dynamic "vpc_config" {
     for_each = var.vpc_config == null ? [] : [var.vpc_config]
