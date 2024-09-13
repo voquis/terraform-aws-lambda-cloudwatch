@@ -104,6 +104,18 @@ variable "variables" {
   default     = null
 }
 
+variable "architectures" {
+  description = "Instruction set architecture for your Lambda function"
+  type        = list(string)
+  default     = ["x86_64"]
+}
+
+variable "filename" {
+  description = "Local path to the function's deployment package if using a file"
+  type        = string
+  default     = null
+}
+
 variable "source_code_hash" {
   description = "base64-encoded SHA256 hash of the package file specified with filebase64sha256"
   type        = string

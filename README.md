@@ -18,6 +18,50 @@ If using a Java runtime deployed from a Zip file, SnapStart may be used to accel
 To skip the creation of CloudWatch Metric Alarms, set `create_alarm` to `false`.
 
 ## Examples
+
+Lambda Functions from a single local python file with no alerting (create and update path to `app.py`):
+```terraform
+
+provider "aws" {
+  version = "2.65.0"
+}
+
+# zip archive of local python file
+# Ensure tmp/*.zip is added to .gitignore
+data "archive_file" "lambda" {
+  type             = "zip"
+  source_file      = "${path.module}/../../../../../apps/python/api/app.py"
+  output_path      = "${path.module}/tmp/api.zip"
+  output_file_mode = "0666"
+}
+
+module "lambda" {
+  source           = "voquis/lambda-cloudwatch/aws"
+  version          = "1.0.1"
+  filename         = data.archive_file.lambda.output_path
+  source_code_hash = data.archive_file.lambda.output_base64sha256
+  function_name    = "python-lambda"
+  handler          = "app.lambda_handler"
+  runtime          = "python3.12"
+  role_name        = "python-lambda"
+  timeout          = 300
+
+
+  # Optional VPC configuration (for example from a vpc_module)
+  vpc_subnet_ids = module.my_vpc.subnets[*].id
+  vpc_security_group_ids = [
+      aws_security_group.my_sg_1.id,
+      aws_security_group.my_sg_2.id
+  ]
+
+  # Optional environment variables
+  variables = {
+    key = "value"
+  }
+}
+```
+
+
 Lambda Function from Zip folder stored in S3 bucket example, with no alarm:
 ```terraform
 
@@ -100,4 +144,3 @@ module "lambda" {
   ]
 }
 ```
-
