@@ -196,3 +196,18 @@ variable "alarm_actions_enabled" {
   type        = bool
   default     = true
 }
+
+# X-ray tracing
+variable "tracing_config" {
+  description = "X-ray tracing configuration"
+  type = object({
+    mode = string
+  })
+  default = null
+}
+
+variable "tracing_policy_name" {
+  description = "IAM policy name for Lambda function to write traces to X-ray"
+  type        = string
+  default     = null
+}
