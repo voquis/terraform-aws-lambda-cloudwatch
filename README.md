@@ -17,6 +17,13 @@ If using a Java runtime deployed from a Zip file, SnapStart may be used to accel
 
 To skip the creation of CloudWatch Metric Alarms, set `create_alarm` to `false`.
 
+To enable X-ray active tracing, set the following variable and optionally `tracing_policy_name`:
+```terraform
+  tracing_config = {
+    mode = "Active"
+  }
+```
+
 ## Examples
 
 Lambda Functions from a single local python file with no alerting (create and update path to `app.py`):
@@ -37,7 +44,7 @@ data "archive_file" "lambda" {
 
 module "lambda" {
   source           = "voquis/lambda-cloudwatch/aws"
-  version          = "1.0.1"
+  version          = "1.0.2"
   filename         = data.archive_file.lambda.output_path
   source_code_hash = data.archive_file.lambda.output_base64sha256
   function_name    = "python-lambda"
@@ -71,7 +78,7 @@ provider "aws" {
 
 module "lambda" {
   source        = "voquis/lambda-cloudwatch/aws"
-  version       = "1.0.0"
+  version       = "1.0.2"
   function_name = "myFunction"
 
   # Required for deployment via zip
@@ -113,7 +120,7 @@ resource "aws_sns_topic" "lambda_failures" {
 
 module "lambda" {
   source        = "voquis/lambda-cloudwatch/aws"
-  version       = "1.0.0"
+  version       = "1.0.2"
   function_name = "myFunction"
 
   # Required for deployment via Image
