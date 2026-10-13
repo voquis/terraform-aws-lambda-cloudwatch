@@ -28,3 +28,8 @@ jobs:
       # Runs a single command using the runners shell
       - name: Format
         run: terraform fmt -check -recursive -diff
+
+      - name: Validate
+        run: |
+          terraform init --backend=false
+          terraform validate

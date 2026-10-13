@@ -86,8 +86,9 @@ variable "s3_object_version" {
 variable "vpc_config" {
   description = "VPC subnets and security groups to allow lambda access"
   type = object({
-    subnet_ids         = list(string)
-    security_group_ids = list(string)
+    subnet_ids                  = list(string)
+    security_group_ids          = list(string)
+    ipv6_allowed_for_dual_stack = bool
   })
   default = null
 }
